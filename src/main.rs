@@ -20,40 +20,40 @@ const AVAILABLE_ADDRESS: usize = 0;
 
 // reads instructions from a file via command line
 fn read_instructions(filename: &str) -> Vec<u32> {
-    let mut f = File::open(filename).expect("no file found");
-    let mut data = Vec::new();
-    let mut instructions = Vec::new();
+//     let mut f = File::open(filename).expect("no file found");
+//     let mut data = Vec::new();
+//     let mut instructions = Vec::new();
 
-    match f.read_to_end(&mut data) {
-        Ok(bytes) => {
-            //println!("read {} bytes from {}", bytes, filename);
+//     match f.read_to_end(&mut data) {
+//         Ok(bytes) => {
+//             //println!("read {} bytes from {}", bytes, filename);
 
-            for i in 0..data.len() / 4 {
-                let index = i * 4;
-                let buf = &data[index..index + 4];
-                let mut dataReg = Cursor::new(buf);
-                instructions.push(dataReg.read_u32::<BigEndian>().unwrap());
-            }
+//             for i in 0..data.len() / 4 {
+//                 let index = i * 4;
+//                 let buf = &data[index..index + 4];
+//                 let mut dataReg = Cursor::new(buf);
+//                 instructions.push(dataReg.read_u32::<BigEndian>().unwrap());
+//             }
 
-            instructions
-        },
-        Err(e) => panic!(
-            "Encountered error while reading from {}: {}", filename, e
-        )
-    }
-//     let mut raw_reader: Box<dyn std::io::BufRead> = match Some(filename) {
-//         None => Box::new(std::io::BufReader::new(std::io::stdin())),
-//             Some(filename) => Box::new(std::io::BufReader::new(
-//                 std::fs::File::open(filename).unwrap(),
-//             )),
-//             };
-//         let mut buf = Vec::<u8>::new();
-//         raw_reader.read_to_end(&mut buf).unwrap();
-//         let instructions: Vec<u32> = buf
-//         .chunks_exact(4)
-//         .map(|x| u32::from_be_bytes(x.try_into().unwrap()))
-//         .collect();
-//         instructions
+//             instructions
+//         },
+//         Err(e) => panic!(
+//             "Encountered error while reading from {}: {}", filename, e
+//         )
+//     }
+    let mut raw_reader: Box<dyn std::io::BufRead> = match Some(filename) {
+        None => Box::new(std::io::BufReader::new(std::io::stdin())),
+            Some(filename) => Box::new(std::io::BufReader::new(
+                std::fs::File::open(filename).unwrap(),
+            )),
+            };
+        let mut buf = Vec::<u8>::new();
+        raw_reader.read_to_end(&mut buf).unwrap();
+        let instructions: Vec<u32> = buf
+        .chunks_exact(4)
+        .map(|x| u32::from_be_bytes(x.try_into().unwrap()))
+        .collect();
+        instructions
 }
 
 
