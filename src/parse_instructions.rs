@@ -1,4 +1,4 @@
-use bitpack::bitpack; 
+// use bitpack::bitpack; 
 // extracts a range of bits from a u32
 pub fn getu(value: u32, lsb: u32, n: u32) -> u32 {
     let field: u32 = ((1 << n) - 1) << lsb;
@@ -26,7 +26,7 @@ pub enum Opcode {
 
 // methods for parsing the instructions.
 pub fn parse_op(instruction: u32) -> Opcode {
-    let op =  bitpack::getu(instruction as u64, 4, 28).try_into().unwrap();//getu(instruction, 28, 4);
+    let op =  getu(instruction, 28, 4);//bitpack::getu(instruction as u64, 4, 28).try_into().unwrap();
 
     match op {
         0 => Opcode::CMov,
@@ -49,59 +49,59 @@ pub fn parse_op(instruction: u32) -> Opcode {
 
 // gets the a value from the instruction
 pub fn parse_a(instruction: u32, op: &Opcode) -> u32 {
-    match *op {
-        Opcode::LoadValue => bitpack::getu(instruction as u64, 3, 25).try_into().unwrap(),
-        _ => bitpack::getu(instruction as u64, 3, 6).try_into().unwrap()
-    }
-    /* 
+//     match *op {
+//         Opcode::LoadValue => bitpack::getu(instruction as u64, 3, 25).try_into().unwrap(),
+//         _ => bitpack::getu(instruction as u64, 3, 6).try_into().unwrap()
+//     }
+    
     match *op {
         Opcode::LoadValue => getu(instruction, 25, 3),
         _ => getu(instruction, 6, 3)
     }
-    */
+   
 }
 
 // gets the b value from the instruction
 pub fn parse_b(instruction: u32, op: &Opcode) -> Option<u32> {
-    match *op {
-        Opcode::LoadValue => None,
-        _ => Some(bitpack::getu(instruction as u64, 3, 3).try_into().unwrap()) 
-    } 
-    /* 
+//     match *op {
+//         Opcode::LoadValue => None,
+//         _ => Some(bitpack::getu(instruction as u64, 3, 3).try_into().unwrap()) 
+//     } 
+    
     match *op {
         Opcode::LoadValue => None,
         _ => Some(getu(instruction, 3, 3))
     }
-    */
+    
 }
 
 // gets the c value from the instruction
 pub fn parse_c(instruction: u32, op: &Opcode) -> Option<u32> {
-    match *op {
-        Opcode::LoadValue => None,
-        _ => Some(bitpack::getu(instruction as u64, 3, 0).try_into().unwrap())
-    } 
-    /* 
+//     match *op {
+//         Opcode::LoadValue => None,
+//         _ => Some(bitpack::getu(instruction as u64, 3, 0).try_into().unwrap())
+//     } 
+    
     match *op {
         Opcode::LoadValue => None,
         _ => Some(getu(instruction, 0, 3))
     }
-    */
+    
 }
 
 // gets the d value from the instruction
 pub fn parse_value(instruction: u32, op: &Opcode) -> Option<u32> {
 
-    match *op {
-        Opcode::LoadValue => Some(bitpack::getu(instruction as u64, 25, 0).try_into().unwrap()),
-        _ => None
-    } 
-    /*
+//     match *op {
+//         Opcode::LoadValue => Some(bitpack::getu(instruction as u64, 25, 0).try_into().unwrap()),
+//         _ => None
+//     } 
+    
     match *op {
         Opcode::LoadValue => Some(getu(instruction, 0, 25)),
         _ => None
     }
-    */
+    
 }
 
 /* 
