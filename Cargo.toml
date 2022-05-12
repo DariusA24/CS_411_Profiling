@@ -7,3 +7,6 @@ edition = "2021"
 # UM used from Connor Allamby and Sunny Lall
 [dependencies]
 byteorder = "1.0.*"
+[profile.release]
+debug = true
+lto = true
