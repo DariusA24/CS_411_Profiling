@@ -9,4 +9,4 @@ edition = "2021"
 byteorder = "1.0.*"
 [profile.release]
 debug = true
-lto = true
+
